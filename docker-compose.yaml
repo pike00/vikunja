@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+    vikunja:
+        image: pike00/vikunja:0.18.1
+        container_name: vikunka
+        # volumes: 
+        #   - vikunja:/app/vikunja/files
+        environment: 
+          - "VIKUNJA_DATABASE_TYPE=sqlite"
+          - "VIKUNJA_DATABASE_PATH=./files/vikunja.db"
+        restart: unless-stopped
+
+    
+
+# volumes:
+#   vikunja: 
+#     name: vikunja
+
+networks:
+  default:
+    external:
+      name: nginx

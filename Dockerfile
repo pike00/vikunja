@@ -23,10 +23,11 @@ RUN if [ -n "${VIKUNJA_VERSION}" ]; then git checkout "${VIKUNJA_VERSION}"; fi \
 # The actual image
 # Note: I wanted to use the scratch image here, but unfortunatly the go-sqlite bindings require cgo and
 # because of this, the container would not start when I compiled the image without cgo.
-FROM alpine:3.12
+FROM nginx:1.21.5-alpine
 LABEL maintainer="maintainers@vikunja.io"
 
 WORKDIR /app/vikunja/
+
 COPY --from=build-env /go/src/code.vikunja.io/api/vikunja .
 ENV VIKUNJA_SERVICE_ROOTPATH=/app/vikunja/
 
@@ -47,5 +48,14 @@ RUN mkdir /app/vikunja/files && \
   chown -R vikunja /app/vikunja/files
 VOLUME /app/vikunja/files
 
+ENV VERISON="0.18.2"
+
+
+RUN wget https://dl.vikunja.io/frontend/vikunja-frontend-${VERISON}.zip -O files.zip && \
+  unzip -o files.zip -d /usr/share/nginx/html
+
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
 CMD ["/run.sh"]
-EXPOSE 3456
