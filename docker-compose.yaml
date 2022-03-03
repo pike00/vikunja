@@ -1,20 +1,21 @@
 version: '3.3'
 services:
     vikunja:
-        image: pike00/vikunja:0.18.1
+        image: ghcr.io/pike00/vikunja:latest
         container_name: vikunka
-        # volumes: 
-        #   - vikunja:/app/vikunja/files
+        volumes: 
+          - vikunja:/app/vikunja/files
         environment: 
           - "VIKUNJA_DATABASE_TYPE=sqlite"
           - "VIKUNJA_DATABASE_PATH=./files/vikunja.db"
         restart: unless-stopped
+        labels:
+          com.centurylinklabs.watchtower.enable: false
 
-    
 
-# volumes:
-#   vikunja: 
-#     name: vikunja
+volumes:
+  vikunja: 
+    name: vikunja
 
 networks:
   default:
