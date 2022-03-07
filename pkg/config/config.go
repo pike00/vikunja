@@ -38,6 +38,7 @@ const (
 	// #nosec
 	ServiceJWTSecret       Key = `service.JWTSecret`
 	ServiceJWTTTL          Key = `service.jwtttl`
+	ServiceJWTTTLLong      Key = `service.jwtttllong`
 	ServiceInterface       Key = `service.interface`
 	ServiceUnixSocket      Key = `service.unixsocket`
 	ServiceUnixSocketMode  Key = `service.unixsocketmode`
@@ -227,7 +228,8 @@ func InitDefaultConfig() {
 
 	// Service
 	ServiceJWTSecret.setDefault(random)
-	ServiceJWTTTL.setDefault(259200)
+	ServiceJWTTTL.setDefault(259200)      // 72 hours
+	ServiceJWTTTLLong.setDefault(2592000) // 30 days
 	ServiceInterface.setDefault(":3456")
 	ServiceUnixSocket.setDefault("")
 	ServiceFrontendurl.setDefault("")
@@ -353,12 +355,6 @@ func InitConfig() {
 
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config")
-	err = viper.ReadInConfig()
-	if err != nil {
-		log.Println(err.Error())
-		log.Println("Using default config.")
-		return
-	}
 
 	if CacheType.GetString() == "keyvalue" {
 		CacheType.Set(KeyvalueType.GetString())
@@ -393,7 +389,18 @@ func InitConfig() {
 		MetricsEnabled.Set(true)
 	}
 
-	log.Printf("Using config file: %s", viper.ConfigFileUsed())
+	err = viper.ReadInConfig()
+	if viper.ConfigFileUsed() != "" {
+		log.Printf("Using config file: %s", viper.ConfigFileUsed())
+
+		if err != nil {
+			log.Println(err.Error())
+			log.Println("Using default config.")
+			return
+		}
+	} else {
+		log.Println("No config file found, using default or config from environment variables.")
+	}
 }
 
 func random(length int) (string, error) {
