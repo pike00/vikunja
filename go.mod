@@ -59,13 +59,13 @@ require (
 	github.com/swaggo/swag v1.8.0
 	github.com/tkuchiki/go-timezone v0.2.2
 	github.com/ulule/limiter/v3 v3.9.0
-	github.com/yuin/goldmark v1.4.8
+	github.com/yuin/goldmark v1.4.13
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
-	golang.org/x/image v0.0.0-20220302094943-723b81ca9867
+	golang.org/x/image v0.10.0
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9
-	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
+	golang.org/x/sync v0.1.0
+	golang.org/x/sys v0.5.0
+	golang.org/x/term v0.5.0
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/d4l3k/messagediff.v1 v1.2.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
