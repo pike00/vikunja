@@ -4,13 +4,8 @@ env:
   DO_NOT_TRACK: 1
 
 on:
-  pull_request:
-  merge_group:
-  push:
-    tags:
-      - v*
-    branches:
-      - main
+  # This fork keeps the expensive upstream matrix available on demand.
+  workflow_dispatch:
 
 concurrency:
   # main merges use a unique run_id so they don't cancel each other
@@ -28,7 +23,8 @@ jobs:
 
   release:
     name: Release
-    if: ${{ github.ref_type == 'tag' || github.ref_name == 'main' }}
+    # Never publish upstream release artifacts from this fork.
+    if: ${{ github.repository == 'go-vikunja/vikunja' && (github.ref_type == 'tag' || github.ref_name == 'main') }}
     uses: ./.github/workflows/release.yml
     needs:
       - test

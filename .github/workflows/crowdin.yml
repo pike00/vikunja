@@ -1,8 +1,8 @@
 name: Crowdin Sync
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  # Keep fork synchronization manual and run it only when deliberately configured.
+  workflow_dispatch:
 
 jobs:
   synchronize-with-crowdin:
